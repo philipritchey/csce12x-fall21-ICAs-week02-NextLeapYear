@@ -1,0 +1,3 @@
+language = "c++"
+run = "clear; echo -e \"\\e[33m\\e[0m g++ -std=c++17 -Wall -Wextra -Weffc++ -pedantic -g main.cpp code.cpp\"; if g++ -std=c++17 -Wall -Wextra -Weffc++ -pedantic -g main.cpp code.cpp; then echo -e \"\\e[33m\\e[0m ./a.out\"; ./a.out; else echo -e \"\\e[1;31mBuild Failed\\e[0m\"; rm -f ./a.out; fi"
+onBoot = "echo Try Harder"
