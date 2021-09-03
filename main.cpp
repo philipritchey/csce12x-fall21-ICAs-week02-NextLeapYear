@@ -8,10 +8,10 @@ Dr. Ritchey had to write this because Replit doesn't support unit testing for C+
 By the end of 121, you could be able to write this (and better), too.
 */
 
-std::tuple<int,int> test(const int* leap_years, int n, int offset);
+std::pair<int,int> test(const int* leap_years, int n, int offset);
 
 template <typename E>
-std::tuple<int,int> test_exception(const int* leap_year, int n);
+std::pair<int,int> test_exception(const int* leap_year, int n);
 
 int main() {
     int pass_cnt = 0, fail_cnt = 0;
@@ -66,7 +66,7 @@ int main() {
     std::cout << "failing " << fail_cnt << std::endl;
 }
 
-std::tuple<int,int> test(const int* leap_years, int n, int offset) {
+std::pair<int,int> test(const int* leap_years, int n, int offset) {
     std::cout << "testing leap years "<< offset << std::endl;
 
     int pass_cnt = 0, fail_cnt = 0;
@@ -79,15 +79,16 @@ std::tuple<int,int> test(const int* leap_years, int n, int offset) {
             std::cout << "[FAIL] expected next_leap_year("<<year<<") to be " << expected << ", got " << actual << std::endl;
             fail_cnt++;
         } else {
+            std::cout << "[PASS] next_leap_year("<<year<<") = " << actual << std::endl;
             pass_cnt++;
         }
     }
 
-    return std::make_tuple(pass_cnt, fail_cnt);
+    return std::make_pair(pass_cnt, fail_cnt);
 }
 
 template <typename E>
-std::tuple<int,int> test_exception(const int* leap_year, int n) {
+std::pair<int,int> test_exception(const int* leap_year, int n) {
     std::cout << "testing years that should throw "<<typeid(E).name() << std::endl;
     int pass_cnt = 0, fail_cnt = 0;
     for (int index = 0; index < n; index++) {
@@ -97,6 +98,7 @@ std::tuple<int,int> test_exception(const int* leap_year, int n) {
             std::cout << "[FAIL] expected next_leap_year("<<year<<") to throw "<<typeid(E).name()<<", got nothing." << std::endl;
             fail_cnt++;
         } catch (const std::invalid_argument& err) {
+            std::cout << "[FAIL] next_leap_year("<<year<<") threw "<<typeid(E).name() << std::endl;
             pass_cnt++;
         } catch (const std::exception& err) {
             std::cout << "[FAIL] expected next_leap_year("<<year<<") to throw "<<typeid(E).name()<<", got " << typeid(err).name() << std::endl;
@@ -107,5 +109,5 @@ std::tuple<int,int> test_exception(const int* leap_year, int n) {
         }
     }
 
-    return std::make_tuple(pass_cnt, fail_cnt);
+    return std::make_pair(pass_cnt, fail_cnt);
 }
